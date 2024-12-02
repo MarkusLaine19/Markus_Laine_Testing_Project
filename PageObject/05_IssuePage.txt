@@ -1,0 +1,95 @@
+
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation	Issue Test scenario. CRUD Operation: Create, Read, Update, Delete
+
+
+Pre Condition	Project must be created by the user before 
+Post Condition	One issue created with the same name as the deleted one
+Tags	TS-4-IssuePage, Functional-Testing
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+homepageUrl= https://gitlab.com/
+Project_for_issue= Markus Laine/testblank
+New_Issue_Creation_Url= https://gitlab.com/MarkusLaine19-testblank/-/issues/new
+IssueTitle= NewIssue
+IssueType= Issue
+Updated_Name= UpdatedIssue
+
+
+#******************** Test Cases *************************
+
+*** Test Case ***
+
+
+# Positive Test examples are below write test process steps for each below test case
+
+Create issue
+	Navigate to your accounts homepage view	homepageUrl
+	On the left sidebar click "Issues"
+	Should bring you to your accounts Issues page
+	On top right click "Select project to create issue"
+	Should get a dropdown with all your current projects
+	Click on the project you want to make an issue for	Project_for_issue
+	Should bring you to Issue creation page	New_Issue_Creation_Url
+	Give Issue a title	IssueTitle
+	Select issue type	IssueType
+	Select Assignee 
+	Select Milestone
+	Select Labels
+	Click Create issue button
+	Should bring you to your just created issues page
+	
+
+Update name of issue
+	Navigate to your created Issues main page
+	Click the Edit button
+	You should now be able to edit your issues information
+	Click on the text box where your current issue name is
+	Update name of the issue	Updated_Name
+	Click Save changes button
+	You should be brought to your issues main page
+	Under Activity header you should see message saying "Markus Laine changed title from NewIssue to UpdatedIssue just now"
+
+
+Create second issue with privious updated name
+	Navigate to your accounts homepage view	homepageUrl
+	On the left sidebar click "Issues"
+	Should bring you to your accounts Issues page
+	On top right click the arrow pointing down
+	Should get a dropdown with all your current projects
+	Click on the project you want to make an issue for	Project_for_issue
+	Click the button next to the down pointing arrow that says New issue in your project that you chose
+	Should bring you to Issue creation page	New_Issue_Creation_Url
+	Give Issue a title with privious updated name	Updated_Name
+	Should get a message under the title saying "Similar issues" and a rounded question mark next to it
+	Hovering over the question mark should give a message suggesting not to make an other issue with similar title
+	Select issue type	IssueType
+	Select Assignee 
+	Select Milestone
+	Select Labels
+	Click Create issue button
+	Should bring you to your just created issues page
+
+
+Delete first issue
+	Navigate to your accounts homepage view	homepageUrl
+	Select the project where you want to delete the issue from	Markus Laine/testblank
+	Should bring you to yout projects main page
+	From side bar on the left choose "Issues"
+	Should show all your created issues for your project
+	Click on the issue you want to delete	Updated_Name
+	Should bring you to the main page of the issue that you chose
+	Click the three dots on top right next to the Edit button
+	Should get a dropdown
+	From dropdown select "Delete issue"
+	Should get a pop up message saying "Issue will be removed! Are you sure?"
+	Click on the red Delete issue button
+	Should be brought to the page where you can see all your chosen projects created issues
+	should have a message on the screen saying "The issue was successfully deleted."
+

@@ -1,0 +1,84 @@
+
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation	Verifying that the registration functionality on the GitLab website works as expected when users attempt to register with both valid and invalid credentials
+
+Pre Condition	Open Browser, access to sign in page, stable inernet connection
+Post Condition	Account created and logged in
+Tags Register, TS-2-Register, Functional-Testing
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+# NOTE: Please Remove your login credential before uploading Assignments
+
+signUpUrl = https://gitlab.com/users/sign_up
+UserName= MarkusLaine19
+Password= **********
+Invalid_Username= MarkusLaine19
+Invalid_Email= XYZ
+Invalid_Password= empty
+Email= markustlaine@hotmail.com
+
+
+#******************** Test Cases *************************
+
+*** Test Case ***
+
+
+# Positive Test examples are below 
+
+# Positive Tests
+
+Register user with valid username and password
+	Navigate to Sign up page	signUpUrl
+	Input valid Username	UserName
+	Username frame should turn green and say that username is available
+	Input valid Password	Password
+	Input valid email	Email
+	Input First name and Last name
+	Press continue
+	You should be brought to identity verification page
+	Enter the verification code sent to email
+	Verification should be completed and can now press next
+	You are brought to Welcome to GitLab page
+
+
+# Negative Test examples keywords are below 
+
+Register user with same above username
+	Navigate to Sign up page	signUpUrl
+	Input First name and Last name
+	Input same valid Username that has already been used	UserName
+	You should get a message below username that Username is already taken
+	Input valid email
+	Input valid Password
+	Press continue
+	You should get an error message on top of the screen saying that username has already been taken
+
+
+Register with empty password
+	Navigate to Sign up page signUpUrl
+	Input First name and Last name
+	Input valid Username
+	Input valid email
+	Input empty Password	Invalid_Password
+	Press continue
+	Password box frame should turn red and message that Minimum length is 8 characters
+
+
+Register with invalid email
+	Navigate to Sign up page	signUpUrl
+	Input First name and Last name
+	Input valid Username
+	Input invalid email	Invalid_Email
+	Email box frame should turn red and send a message saying that Please provide a valid email address
+	Input valid Password
+	Press continue
+	You should be brought to Emai box and there should be a message "Please provide a valid email address."
+
+
+

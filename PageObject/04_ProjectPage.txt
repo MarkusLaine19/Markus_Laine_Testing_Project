@@ -1,0 +1,100 @@
+
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation	Project Test scenario. CRUD Operation: Create, Read, Update, Delete
+
+Pre Condition	Owned GitLab account 
+Post Condition	blank project created
+Tags	TS-3-ProjectCreation, Functional-Testing
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+
+ProjectsUrl= https://gitlab.com/projects/new
+Project_name= testblank
+visibility_level= private
+Template= Ruby_on_Rails
+Template_Project_Name= template test
+NewTemplateName= changed name
+Confirm_delete= MarkusLaine19/template-test
+
+
+#******************** Test Cases *************************
+
+*** Test Case ***
+
+
+# Positive Test examples are below write test process steps for each below test case
+
+Create blank project
+	Navigate To GitLab Project Page  ProjectsUrl
+	Click Create blank project box
+	Should bring you to create blank project page
+	Enter Project name	Project_name
+	Should have your Project URL and Project slug already done in their boxes
+	Choose visibility level	visibility_level
+	Choose project configuration
+	Click Create project
+	Should be brought to your blank project page and get a message "Project 'testblank' was successfully created."
+
+
+Create template project
+	Navigate To GitLab Project Page  ProjectsUrl
+	Click Create from template box
+	Should bring you to Create from template page
+	Choose what template to use	Template
+	Should bring to create from template
+	Template box should contain the template name that you Chose	Template
+	Enter template Project name	Template_Project_Name
+	Should have your Project URL and Project slug already done in their boxes
+	Choose visibility level	visibility_level
+	Click Create project
+	Should be brought to your template project page and get a message "The project was successfully imported."
+
+
+Update name of template project
+	From your template project page click three dots located at top right of the screen
+	Should get a dropdown where there is Project Settings
+	Click Project Settings
+	Should bring you to your template project edit page
+	Should see your current project name in project name box
+	Click the box
+	Should be able to edit the projects name
+	Change project name to a new one	NewTemplateName
+	Click Save changes
+	Should get a message saying "Project 'changed name' was successfully updated."
+
+
+Delete template project
+	From your template project page click three dots located at top right of the screen
+	Should get a dropdown where there is Project Settings
+	Click Project Settings
+	Should bring you to your template project edit page
+	Click Advanced
+	Scroll down till you see "Delete this project"
+	Click Delete project button
+	Should get a pop up window with "Are you absolutely sure?" header
+	Enter the given text to confirm the deletion	Confirm_delete
+	Click "Yes, delete project" button
+	Should get a message to bottom left saying "Project 'Markus Laine / changed name' is being deleted."
+	Should bring you to your projects page
+
+
+# Negative Test examples are below write test process steps for each below test case
+
+Create a blank project with the previous same name
+	Navigate To GitLab Project Page  ProjectsUrl
+	Click Create blank project box
+	Should bring you to create blank project page
+	Enter Project name with the previous same name	Project_name
+	Should have your Project URL and Project slug already done in their boxes
+	Choose visibility level	visibility_level
+	Choose project configuration
+	Click Create project
+	Should get an error message on top of the screen telling the errors "Name has already been taken"
+
+
